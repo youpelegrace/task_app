@@ -7,7 +7,7 @@ import 'package:testing_app/model/album_res.dart';
 import 'package:testing_app/model/photo_res.dart';
 
 class Repository {
-  Future<List<AlbumRes>> getAlbums({bool remoteOnly = false}) async {
+  Future<List<AlbumRes>> getAlbums({bool remoteOnly = true}) async {
     final albumBox = Hive.box("cachedata");
     List<AlbumRes> albums = [];
     dynamic data;
@@ -34,7 +34,7 @@ class Repository {
   }
 
   Future<List<PhotoRes>> getPhotos(int albumId,
-      {bool remoteOnly = false}) async {
+      {bool remoteOnly = true}) async {
     final photoBox = Hive.box("cachedata");
     List<PhotoRes> photos = [];
     dynamic data;

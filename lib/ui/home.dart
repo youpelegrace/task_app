@@ -135,11 +135,17 @@ class _HomePageState extends State<HomePage> {
                                                     (BuildContext context,
                                                         int index,
                                                         int realIndex) {
-                                                  final photo =
-                                                      photoList[index];
+                                                  // var photoIndex = 0;
+                                                  final photo = photoList[index]
+                                                          .thumbnailUrl
+                                                          .toString()
+                                                          .isEmpty
+                                                      ? "https://via.placeholder.com/150"
+                                                      : photoList[index]
+                                                          .thumbnailUrl;
+                                                  // print(photo);
                                                   return CachedNetworkImage(
-                                                    imageUrl:
-                                                        photo.thumbnailUrl!,
+                                                    imageUrl: photo.toString(),
                                                     placeholder: (context,
                                                             url) =>
                                                         const Center(
@@ -149,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                                                         (context, url, error) =>
                                                             const Image(
                                                       image: AssetImage(
-                                                          'assets/images/No_Image_Available.jpeg'),
+                                                          'images/No_Image_Available.jpeg'),
                                                     ),
                                                     fit: BoxFit.cover,
                                                     width: 100.0,
