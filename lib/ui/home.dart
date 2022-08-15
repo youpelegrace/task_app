@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (BuildContext context, int index,
                                 int realIndex) {
                               final album = albumList[index];
-
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -93,87 +94,7 @@ class _HomePageState extends State<HomePage> {
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600)),
                                   const SizedBox(height: 20),
-                                  BlocProvider(
-                                    create: (context) => PhotosBloc(
-                                        repository: Repository(),
-                                        connectivityService:
-                                            ConnectivityService())
-                                      ..add(
-                                        FetchPhotos(albumId: album.id!),
-                                      ), // call the bloc to fetch the photos using albumId on init of the [PhotoBloc]
-                                    child:
-                                        BlocListener<PhotosBloc, PhotosState>(
-                                      listener: (context, state) {
-                                        if (state is PhotosLoading) {
-                                          setState(() {
-                                            _isPhotoLoading = true;
-                                          });
-                                        } else if (state is PhotosLoaded) {
-                                          setState(() {
-                                            _isPhotoLoading = false;
-                                            photoList = state.photos;
-                                          });
-                                        } else if (state is PhotosError) {
-                                          setState(() {
-                                            _isPhotoLoading = false;
-                                          });
-                                          // print(state.error);
-                                        }
-                                      },
-                                      child: SizedBox(
-                                        height: 100,
-                                        width: double.infinity,
-                                        child: _isPhotoLoading
-                                            ? const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              )
-                                            : CarouselSlider.builder(
-                                                itemCount:
-                                                    photoList.take(3).length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index,
-                                                        int realIndex) {
-                                                  // var photoIndex = 0;
-                                                  final photo = photoList[index]
-                                                          .thumbnailUrl
-                                                          .toString()
-                                                          .isEmpty
-                                                      ? "https://via.placeholder.com/150"
-                                                      : photoList[index]
-                                                          .thumbnailUrl;
-                                                  // print(photo);
-                                                  return CachedNetworkImage(
-                                                    imageUrl: photo.toString(),
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        const Center(
-                                                            child:
-                                                                CircularProgressIndicator()),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            const Image(
-                                                      image: AssetImage(
-                                                          'images/No_Image_Available.jpeg'),
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                    width: 100.0,
-                                                    height: 100.0,
-                                                  );
-                                                },
-                                                options: CarouselOptions(
-                                                  height: 100.0,
-                                                  enlargeCenterPage: false,
-                                                  autoPlay: false,
-                                                  aspectRatio: 2.0,
-                                                  enableInfiniteScroll: true,
-                                                  viewportFraction: 0.33,
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                  ),
+                                  photosList(album),
                                   const Divider(
                                     color: Colors.black,
                                     thickness: 1,
@@ -195,6 +116,75 @@ class _HomePageState extends State<HomePage> {
                           ),
                   ),
           ),
+        ),
+      ),
+    );
+  }
+
+  BlocProvider<PhotosBloc> photosList(AlbumRes album) {
+    return BlocProvider(
+      create: (context) => PhotosBloc(
+          repository: Repository(), connectivityService: ConnectivityService())
+        ..add(
+          FetchPhotos(albumId: album.id!),
+        ), // call the bloc to fetch the photos using albumId on init of the [PhotoBloc]
+      child: BlocListener<PhotosBloc, PhotosState>(
+        listener: (context, state) {
+          if (state is PhotosLoading) {
+            setState(() {
+              _isPhotoLoading = true;
+            });
+          } else if (state is PhotosLoaded) {
+            setState(() {
+              _isPhotoLoading = false;
+              photoList = state.photos;
+            });
+          } else if (state is PhotosError) {
+            setState(() {
+              _isPhotoLoading = false;
+            });
+            // print(state.error);
+          }
+        },
+        child: SizedBox(
+          height: 100,
+          width: double.infinity,
+          child: _isPhotoLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : CarouselSlider.builder(
+                  itemCount: 3,
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                    // return Image(
+                    //     image: Image.network(photoList.isEmpty
+                    //             ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                    //             : photoList[index].url.toString())
+                    //         .image);
+                    return CachedNetworkImage(
+                      imageUrl: photoList.isEmpty
+                          ? "https://commons.wikimedia.org/wiki/File:No_Image_Available.jpg"
+                          : photoList[index].thumbnailUrl.toString(),
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Image(
+                        image: AssetImage('images/No_Image_Available.jpeg'),
+                      ),
+                      fit: BoxFit.cover,
+                      width: 100.0,
+                      height: 100.0,
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: 100.0,
+                    enlargeCenterPage: false,
+                    autoPlay: false,
+                    aspectRatio: 2.0,
+                    enableInfiniteScroll: true,
+                    viewportFraction: 0.33,
+                  ),
+                ),
         ),
       ),
     );

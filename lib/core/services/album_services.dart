@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
@@ -56,6 +57,8 @@ class Repository {
       }
     }
     photos = List<PhotoRes>.from(data.map((x) => PhotoRes.fromJson(x)));
+
+    // log(data);
 
     return photos;
   }
