@@ -29,19 +29,16 @@ environment:
 dependencies:
   bloc: null
   cached_network_image: null
+  carousel_slider: ^4.0.0
   connectivity_plus: null
   cupertino_icons: ^1.0.2
-  dio: ^4.0.6
-  dio_cache_interceptor: null
   equatable: null
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  hive: null
   hive_flutter: ^1.1.0
-  hive: 
-  carousel_slider: ^4.0.0
- 
-  pretty_dio_logger: null
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_lints: ^1.0.0

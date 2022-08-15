@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Practical Task"),
+        centerTitle: true,
       ),
       body: BlocProvider(
         create: (context) => AlbumBloc(
@@ -139,6 +140,11 @@ class _HomePageState extends State<HomePage> {
                                                   return CachedNetworkImage(
                                                     imageUrl:
                                                         photo.thumbnailUrl!,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        const Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
                                                     errorWidget:
                                                         (context, url, error) =>
                                                             const Image(

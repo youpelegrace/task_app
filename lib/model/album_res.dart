@@ -2,13 +2,11 @@
 //
 //     final albumRes = albumResFromJson(jsonString);
 
-import 'dart:convert';
+// List<AlbumRes> albumResFromJson(List<dynamic> str) =>
+//     List<AlbumRes>.from(str.map((x) => AlbumRes.fromJson(x)));
 
-List<AlbumRes> albumResFromJson(List<dynamic> str) =>
-    List<AlbumRes>.from(str.map((x) => AlbumRes.fromJson(x)));
-
-String albumResToJson(List<AlbumRes> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+// String albumResToJson(List<AlbumRes> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class AlbumRes {
   AlbumRes({

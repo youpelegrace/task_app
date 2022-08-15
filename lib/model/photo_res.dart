@@ -2,13 +2,11 @@
 //
 //     final photoRes = photoResFromJson(jsonString);
 
-import 'dart:convert';
+// List<PhotoRes> photoResFromJson(List<dynamic> str) =>
+//     List<PhotoRes>.from(str.map((x) => PhotoRes.fromJson(x)));
 
-List<PhotoRes> photoResFromJson(List<dynamic> str) =>
-    List<PhotoRes>.from(str.map((x) => PhotoRes.fromJson(x)));
-
-String photoResToJson(List<PhotoRes> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+// String photoResToJson(List<PhotoRes> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PhotoRes {
   PhotoRes({

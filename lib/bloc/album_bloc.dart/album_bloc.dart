@@ -24,7 +24,6 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
       emit(AlbumLoading());
       try {
         final albumsList = await repository.getAlbums();
-        print(albumsList);
         emit(AlbumLoaded(albums: albumsList));
       } catch (e) {
         emit(AlbumError(error: e.toString()));
